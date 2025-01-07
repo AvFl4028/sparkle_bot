@@ -1,3 +1,14 @@
+import sys
+import os
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from api.gemini import GeminiAPI
+from keys import GEMINI_API_KEY
+import json
+
 test_dic_structure = {
     "user": "Curious_Platypus7",
     "reddit_history": {
@@ -10,3 +21,17 @@ test_dic_structure = {
         },
     },
 }
+
+history_test = {}
+
+if __name__ == "__main__":
+    gemini = GeminiAPI(GEMINI_API_KEY)
+
+    for i in range(20):
+        print(f"Test {i + 1} of 20")
+        history_test[f"{i}"] = gemini.response(json_type=True)
+
+    with open("src/api/history_test.json", "w", encoding="utf-8") as f:
+        f.write(json.dumps(history_test, ensure_ascii=False, indent=4))
+        f.close()
+    print("Test completed successfully.")

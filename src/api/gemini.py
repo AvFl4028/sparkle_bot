@@ -21,7 +21,7 @@ class GeminiAPI:
         self.model = model
         genai.configure(api_key=self.key)
 
-    def response(self, history_type: HistoryType = 0, json_type: bool = False):
+    def response(self, history_type: HistoryType = HistoryType.REDDIT, json_type: bool = False):
         response = genai.GenerativeModel(self.model)
         match history_type:
             case HistoryType.REDDIT:
@@ -30,6 +30,8 @@ class GeminiAPI:
               return "Horror History In Development"
             case HistoryType.SPACE:
               return "Space History In Development"
+            case _:
+              return "Invalid History Type"
         response = response.text.replace("```json", "").replace("```", "")
         if json_type:
           return json.loads(response)
