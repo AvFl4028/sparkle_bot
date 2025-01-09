@@ -13,6 +13,8 @@ class HistoryType(Enum):
     REDDIT = 0
     HORROR = 1
     SPACE = 2
+    HOPECORE = 3
+    LAUGH = 4
 
 
 class GeminiAPI:
@@ -30,6 +32,10 @@ class GeminiAPI:
               return "Horror History In Development"
             case HistoryType.SPACE:
               return "Space History In Development"
+            case HistoryType.HOPECORE:
+                return "Hopecore videos In Development"
+            case HistoryType.LAUGH:
+                return "Laugh clips videos In Development"
             case _:
               return "Invalid History Type"
         response = response.text.replace("```json", "").replace("```", "")
