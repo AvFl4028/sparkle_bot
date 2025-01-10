@@ -8,6 +8,8 @@ import uuid
 import os
 import math
 
+# TODO - Documentar todo el codigo :'3
+
 json_file = open('src/api/history_test.json', "r", encoding="utf-8")
 json_data = json.load(json_file)
 

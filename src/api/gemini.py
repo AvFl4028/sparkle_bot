@@ -4,9 +4,9 @@ from random import randint
 import json
 
 if __name__ == "__main__":
-  from promps import promp_list_reddit
+    from promps import promp_list_reddit
 else:
-  from api.promps import promp_list_reddit
+    from api.promps import promp_list_reddit
 
 
 class HistoryType(Enum):
@@ -27,19 +27,19 @@ class GeminiAPI:
         response = genai.GenerativeModel(self.model)
         match history_type:
             case HistoryType.REDDIT:
-              response = response.generate_content(promp_list_reddit[randint(0, len(promp_list_reddit) - 1)])
+                response = response.generate_content(promp_list_reddit[randint(0, len(promp_list_reddit) - 1)])
             case HistoryType.HORROR:
-              return "Horror History In Development"
+                return "Horror History In Development"
             case HistoryType.SPACE:
-              return "Space History In Development"
+                return "Space History In Development"
             case HistoryType.HOPECORE:
                 return "Hopecore videos In Development"
             case HistoryType.LAUGH:
                 return "Laugh clips videos In Development"
             case _:
-              return "Invalid History Type"
+                return "Invalid History Type"
         response = response.text.replace("```json", "").replace("```", "")
         if json_type:
-          return json.loads(response)
+            return json.loads(response)
         else:
-          return response
+            return response
