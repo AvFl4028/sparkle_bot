@@ -1,6 +1,7 @@
 from api.audio import Audio
 from api.gemini import GeminiAPI, HistoryType
 from keys import GEMINI_API_KEY, ELEVENLABS_API_KEY
+from video_edition.BgGenerator import bg_generate
 
 # TODO - Bug Se imprime el history_test.json sin razon alguna
 
@@ -11,6 +12,7 @@ gemini = GeminiAPI(GEMINI_API_KEY)
 def main():
     # test_gemini()
     # test_whisper()
+    test_bg()
     pass
 
 
@@ -35,6 +37,9 @@ def test_whisper():
     audio_path = "src/media/audio/temp/part2.mp3"
     audio_generator.subtitles(audio_path)
 
+
+def test_bg():
+    bg_generate()
 
 if __name__ == "__main__":
     main()
