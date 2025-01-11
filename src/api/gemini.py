@@ -1,7 +1,8 @@
-import google.generativeai as genai
+import json
 from enum import Enum
 from random import randint
-import json
+
+import google.generativeai as genai
 
 if __name__ == "__main__":
     from promps import promp_list_reddit

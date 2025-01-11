@@ -1,8 +1,6 @@
-from keys import GEMINI_API_KEY, ELEVENLABS_API_KEY
-from api.gemini import GeminiAPI, HistoryType
 from api.audio import Audio
-
-from faster_whisper import WhisperModel
+from api.gemini import GeminiAPI, HistoryType
+from keys import GEMINI_API_KEY, ELEVENLABS_API_KEY
 
 # TODO - Bug Se imprime el history_test.json sin razon alguna
 
@@ -11,20 +9,27 @@ gemini = GeminiAPI(GEMINI_API_KEY)
 
 
 def main():
-    #test_gemini()
-    test_whisper()
+    # test_gemini()
+    # test_whisper()
+    pass
 
 
 def test_gemini():
     response = gemini.response(HistoryType.REDDIT, True)
+    print("Starting Generative Text, Text to Speech and Subtitles generator")
     print("--------------------------------------------------------------------")
-    print(response["reddit_history"]["part1"]["content"])
-    audio_generator.subtitles("src/media/audio/temps/part1.mp3")
-    print("--------------------------------------------------------------------")
-    print(response["reddit_history"]["part2"]["content"])
-    print("--------------------------------------------------------------------")
-    #audio_generator.text_to_speech(response["reddit_history"]["part2"]["content"], file_name="part2")
 
+    print(response["reddit_history"]["part1"]["content"])
+    audio_generator.text_to_speech(response["reddit_history"]["part1"]["content"], is_temp=True)
+    audio_generator.subtitles()
+
+    print("--------------------------------------------------------------------")
+
+#    print(response["reddit_history"]["part2"]["content"])
+#    audio_generator.text_to_speech(response["reddit_history"]["part2"]["content"], is_temp=True)
+#    audio_generator.subtitles()
+
+#    print("--------------------------------------------------------------------")
 
 def test_whisper():
     audio_path = "src/media/audio/temp/part2.mp3"
@@ -33,4 +38,3 @@ def test_whisper():
 
 if __name__ == "__main__":
     main()
-

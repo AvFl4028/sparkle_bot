@@ -1,12 +1,12 @@
-from elevenlabs.client import ElevenLabs
-from elevenlabs import play
-from faster_whisper import WhisperModel
+import json
+import math
+import os
+import uuid
 from random import randint
 
-import json
-import uuid
-import os
-import math
+from elevenlabs import play
+from elevenlabs.client import ElevenLabs
+from faster_whisper import WhisperModel
 
 # TODO - Documentar todo el codigo :'3
 
@@ -15,23 +15,26 @@ json_data = json.load(json_file)
 
 num_random = randint(0, 19)
 
+
 # print(json_data[f"{num_random}"]["reddit_history"]["part1"]["content"])
 
 class Audio:
     def __init__(self, api_key: str):
-        self.api_key = api_key
-        self.client = ElevenLabs(api_key=self.api_key)
+        self.__api_key = api_key
+        self.__client = ElevenLabs(api_key=self.__api_key)
 
         self.audio_file_path: str = ""
+        self.subtitles_file_path: str = ""
 
-        self.audio_path: str = "src/media/audio/"
-        self.audio_temp_path: str = "src/media/audio/temp/"
-        self.subtitles_path: str = "src/media/audio/subtitles/"
-        self.subtitles_file_path: str = f"{self.subtitles_path}test_sub.srt"
+        self.__audio_path: str = "src/media/audio/"
+        self.__audio_temp_path: str = "src/media/audio/temp/"
+        self.__subtitles_path: str = "src/media/audio/subtitles/"
+
+        self.__subtitles_name: str = ""
 
 
     def text_to_speech(self, text, save_file: bool = True, file_name: str = None, is_temp: bool = False):
-        audio = self.client.text_to_speech.convert(
+        audio = self.__client.text_to_speech.convert(
             text=text,
             voice_id="FXGrCtY3PEyfqczBAlqm",
             model_id="eleven_multilingual_v2",
@@ -44,14 +47,18 @@ class Audio:
             return
 
         if is_temp:
-            file_path = self.audio_temp_path
+            file_path = self.__audio_temp_path
         else:
-            file_path = self.audio_path
+            file_path = self.__audio_path
 
         if file_name is None:
-            self.audio_file_path = f"{file_path}{uuid.uuid4()}.mp3"
+            name = uuid.uuid4()
+            self.audio_file_path = f"{file_path}{name}.mp3"
+            self.__subtitles_name = str(name)
+
         else:
-            self.audio_file_path =  f"{file_path}{file_name}.mp3"
+            self.audio_file_path = f"{file_path}{file_name}.mp3"
+            self.__subtitles_name = file_name
 
         with open(self.audio_file_path, "wb") as f:
             for chunk in audio:
@@ -72,6 +79,8 @@ class Audio:
         file_transcribed = self.__generate_subtitle_file(audio_file, subtitles_name)
 
         print(f"---------------------------\n{file_transcribed}\n----------------------------")
+        return
+
 
     def __transcribe(self, audio_file: str) -> tuple:
         model = WhisperModel("small", device="cpu", compute_type="int8")
@@ -86,7 +95,7 @@ class Audio:
         index = 0
 
         for segment in segments:
-            segments_start[str(index)]= "%.2f" % segment.start
+            segments_start[str(index)] = "%.2f" % segment.start
             segments_end[str(index)] = "%.2f" % segment.end
             segments_text[str(index)] = segment.text
 
@@ -124,9 +133,12 @@ class Audio:
         print(text)
 
         if subtitles_name is not None:
-            self.subtitles_file_path = self.subtitles_path + f"{subtitles_name}"
+            self.subtitles_file_path = self.__subtitles_path + f"{subtitles_name}"
 
-        f = open(self.subtitles_file_path, "w")
+        else:
+            self.subtitles_file_path = f"{self.__subtitles_path}{self.__subtitles_name}.srt"
+
+        f = open(self.subtitles_file_path, "w", encoding="utf-8")
         f.write(text)
         f.close()
 
