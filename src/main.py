@@ -1,7 +1,7 @@
 from api.audio import Audio
 from api.gemini import GeminiAPI, HistoryType
 from keys import GEMINI_API_KEY, ELEVENLABS_API_KEY
-from video_edition.BgGenerator import bg_generate
+from video_edition.BgGenerator import BgGenerator
 
 # TODO - Bug Se imprime el history_test.json sin razon alguna
 
@@ -39,7 +39,7 @@ def test_whisper():
 
 
 def test_bg():
-    bg_generate()
+    BgGenerator().bg_generate()
 
 if __name__ == "__main__":
     main()

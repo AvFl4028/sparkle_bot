@@ -2,6 +2,7 @@
 /src/__pycache__
 /src/api/__pycache__
 /src/config/keys.json
+/src/video_edition/__pycache__
 *.mp4
 *.mp3
 /.idea
