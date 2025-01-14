@@ -39,7 +39,8 @@ def test_whisper():
 
 
 def test_bg():
-    BgGenerator().bg_generate()
+    bg = BgGenerator()
+    bg.generate_clips("D:\\Videos\\sparkle_bot\\media\\video\\background_movil_size\\video_6.mp4")
 
 if __name__ == "__main__":
     main()

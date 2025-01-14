@@ -15,7 +15,6 @@ json_data = json.load(json_file)
 
 num_random = randint(0, 19)
 
-
 # print(json_data[f"{num_random}"]["reddit_history"]["part1"]["content"])
 
 class Audio:
@@ -143,4 +142,3 @@ class Audio:
         f.close()
 
         return self.subtitles_file_path
-
