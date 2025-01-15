@@ -7,9 +7,9 @@ class BgGenerator:
     def __init__(self):
         self.config = json.load(open("src/config/config.json", "r", encoding="utf-8"))
         if self.config["project_type"] == "system":
-            self.path = self.config["paths"]["video"]["system"]["bg_raw"]
+            self.path = self.config["paths"]["video"]["system"]["bg_m_s"]
         else:
-            self.path = self.config["paths"]["video"]["project"]["bg_raw"]
+            self.path = self.config["paths"]["video"]["project"]["bg_m_s"]
         self.video_name = "test.mp4"
         self.video_file = self.path + self.video_name
         self.clip_duration = 120
@@ -45,7 +45,7 @@ class BgGenerator:
         cropped_video = video.cropped(x1=x1, x2=x2, y1=y1, y2=y2)
 
         # Guardar el resultado
-        output_path = self.config["paths"]["video"]["system"]["bg_m_s"] + self.video_name
+        output_path = self.path + self.video_name
         cropped_video.write_videofile(output_path, codec="libx264", fps=60)
 
     def get_files(self) -> list:
@@ -62,7 +62,11 @@ class BgGenerator:
 
         video = VideoFileClip(self.video_file)
 
-        self.clip_path = self.config["paths"]["video"]["system"]["bg_m_s"] + self.video_name.replace(".mp4", "") + "\\"
+        self.clip_path = (
+            self.config["paths"]["video"]["system"]["clips"]
+            + self.video_name.replace(".mp4", "")
+            + "\\"
+        )
 
         if not os.path.exists(self.clip_path):
             os.makedirs(self.clip_path)
@@ -85,6 +89,7 @@ class BgGenerator:
 
             # Guardar el clip
             output_path = self.clip_path + f"clip_{i}.mp4"
+            print("Saving clip: " + output_path)
             clip.write_videofile(output_path, codec="libx264", fps=60)
 
         return
