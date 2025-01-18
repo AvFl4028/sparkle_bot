@@ -13,29 +13,49 @@ class VideoEditor:
         self.output_path = self.config["paths"]["video"]["system"]["output"]
         self.video_name = "test.mp4"
         self.subtitles: list[tuple]
+        self.subtitles_size: tuple
+        self.video_size: tuple = (608, 1080)
 
     def create_video(self, bg_path: str, audio_path: str, subtitles_path: str):
         video = VideoFileClip(bg_path)
         audio = AudioFileClip(audio_path)
-
-        self.__load_subtitles(subtitles_path)
+        self.subtitles = subtitles_path
+        # self.__load_subtitles(subtitles_path)
 
         def subtitle_generator(txt):
-            return TextClip(
+            text_clip: TextClip = TextClip(
                 text=txt,
-                font_size=24,  # Tamaño del texto
+                method="caption",  # Tamaño del texto
+                size=(int(round(float(self.video_size[0]) * 0.9)), None),
                 color="white",  # Color del texto
                 font="arial",  # Fuente del texto (asegúrate de que está instalada)
+                text_align="center",
+                font_size=60,
+                bg_color=(0, 0, 0, 75),
             )
+
+            self.subtitles_size = text_clip.size
+
+            return text_clip
 
         # Cargar los subtítulos desde un archivo SRT
         subtitles = SubtitlesClip(
             self.subtitles, make_textclip=subtitle_generator, encoding="utf-8"
         )
 
-        output = CompositeVideoClip([video.with_audio(audio), subtitles]).with_duration(
-            audio.duration
+        video = video.with_audio(audio)
+
+        width, height = self.subtitles_size
+
+        subtitles = subtitles.with_position(
+            (
+                (self.video_size[0] / 2) - (width / 2),
+                (self.video_size[1] / 2) - (height / 2),
+            )
         )
+
+        output = CompositeVideoClip([video, subtitles])
+        output = output.with_duration(audio.duration)
         output.write_videofile(
             self.output_path + self.video_name,
             fps=video.fps,
@@ -52,7 +72,7 @@ class VideoEditor:
         for chunk in subtitles_file:
             start_time = chunk.start.seconds
             end_time = chunk.end.seconds
-            text_wraped = textwrap.wrap(chunk.text, width=30)
+            text_wraped = textwrap.wrap(chunk.text, width=25)
             final_text: str = ""
             for i in text_wraped:
                 final_text += i + "\n"

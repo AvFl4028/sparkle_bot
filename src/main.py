@@ -11,7 +11,7 @@ gemini = GeminiAPI(GEMINI_API_KEY)
 
 def main() -> None:
     # test_gemini()
-    test_whisper()
+    # test_whisper()
     # test_bg()
     test_final_video()
     pass
@@ -74,7 +74,7 @@ def test_final_video():
     subtitles_path = (
         "src/media/audio/subtitles/test.srt"
     )
-    video.load_subtitles(subtitles_path)
+    # video.load_subtitles(subtitles_path)
     video.create_video(
         clip_path,
         "src/media/audio/temp/part2.mp3",
