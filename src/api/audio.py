@@ -90,8 +90,7 @@ class Audio:
         segments_start = {}
         segments_end = {}
         segments_text = {}
-
-        index = 0
+        index: int = 0
 
         for segment in segments:
             segments_start[str(index)] = "%.2f" % segment.start
@@ -132,7 +131,7 @@ class Audio:
         print(text)
 
         if subtitles_name is not None:
-            self.subtitles_file_path = self.__subtitles_path + f"{subtitles_name}"
+            self.subtitles_file_path = self.__subtitles_path + f"{subtitles_name}.srt"
 
         else:
             self.subtitles_file_path = f"{self.__subtitles_path}{self.__subtitles_name}.srt"

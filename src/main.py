@@ -3,20 +3,21 @@ from api.gemini import GeminiAPI, HistoryType
 from keys import GEMINI_API_KEY, ELEVENLABS_API_KEY
 from video_edition.BgGenerator import BgGenerator
 from video_edition.video import VideoEditor
+import textwrap
 
 audio_generator = Audio(ELEVENLABS_API_KEY)
 gemini = GeminiAPI(GEMINI_API_KEY)
 
 
-def main():
+def main() -> None:
     # test_gemini()
-    # test_whisper()
+    test_whisper()
     # test_bg()
     test_final_video()
     pass
 
 
-def test_gemini():
+def test_gemini() -> None:
     response = gemini.response(HistoryType.REDDIT, True)
     print("Starting Generative Text, Text to Speech and Subtitles generator")
     print("--------------------------------------------------------------------")
@@ -43,17 +44,24 @@ def test_gemini():
 
 def test_whisper():
     audio_path = "src/media/audio/temp/part2.mp3"
-    audio_generator.subtitles(audio_path)
+    audio_generator.subtitles(audio_path, "test")
 
 
 def test_bg():
     bg = BgGenerator()
     clip_files = bg.get_files()[6:-1]
 
-    print(clip_files)
-
-    for clip in clip_files:
-        bg.generate_clips(clip)
+    # print(clip_files)
+    files_raw = [
+        "D:\\Videos\\sparkle_bot\\media\\video\\background_raw\\video_2.mp4",
+        "D:\\Videos\\sparkle_bot\\media\\video\\background_raw\\video_3.mp4",
+        "D:\\Videos\\sparkle_bot\\media\\video\\background_raw\\video_4.mp4",
+        "D:\\Videos\\sparkle_bot\\media\\video\\background_raw\\video_5.mp4",
+    ]
+    for i in files_raw:
+        bg.bg_generate(i)
+    # for clip in clip_files:
+    #     bg.generate_clips(clip)
 
     # bg.generate_clips(
     #   "D:\\Videos\\sparkle_bot\\media\\video\\background_movil_size\\video_6.mp4"
@@ -63,10 +71,14 @@ def test_bg():
 def test_final_video():
     clip_path = "D:\\Videos\\sparkle_bot\\media\\video\\clips\\video_11\\clip_1.mp4"
     video = VideoEditor()
+    subtitles_path = (
+        "src/media/audio/subtitles/test.srt"
+    )
+    video.load_subtitles(subtitles_path)
     video.create_video(
         clip_path,
-        "src/media/audio/temp/72d08f0c-6ae5-4bcc-b5e3-24967e9f1e32.mp3",
-        "src/media/audio/subtitles/72d08f0c-6ae5-4bcc-b5e3-24967e9f1e32.srt",
+        "src/media/audio/temp/part2.mp3",
+        subtitles_path
     )
     return
 

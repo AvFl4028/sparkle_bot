@@ -93,3 +93,6 @@ class BgGenerator:
             clip.write_videofile(output_path, codec="libx264", fps=60)
 
         return
+
+    def get_clips_files() -> list[str]:
+        pass
