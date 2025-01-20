@@ -4,7 +4,8 @@
       "project": {
         "bg_raw": "src/media/video/background_raw/",
         "bg_m_s": "src/media/video/background_movil_size/",
-        "clips": "src/media/video/clips/"
+        "clips": "src/media/video/clips/",
+        "output": "src/output/"
       },
       "system": {
         "bg_raw": "D:\\Videos\\sparkle_bot\\media\\video\\background_raw\\",

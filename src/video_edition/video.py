@@ -11,15 +11,16 @@ class VideoEditor:
     def __init__(self):
         self.config = json.load(open("src/config/config.json", "r", encoding="utf-8"))
         self.output_path = self.config["paths"]["video"]["system"]["output"]
-        self.video_name = "test.mp4"
+        self.video_name: str
         self.subtitles: list[tuple]
         self.subtitles_size: tuple
         self.video_size: tuple = (608, 1080)
 
-    def create_video(self, bg_path: str, audio_path: str, subtitles_path: str):
+    def create_video(self, bg_path: str, audio_path: str, subtitles_path: str, video_name: str):
         video = VideoFileClip(bg_path)
         audio = AudioFileClip(audio_path)
         self.subtitles = subtitles_path
+        self.video_name = video_name
         # self.__load_subtitles(subtitles_path)
 
         def subtitle_generator(txt):

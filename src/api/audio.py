@@ -29,7 +29,8 @@ class Audio:
         self.__audio_temp_path: str = "src/media/audio/temp/"
         self.__subtitles_path: str = "src/media/audio/subtitles/"
 
-        self.__subtitles_name: str = ""
+        self.__subtitles_name: str
+        self.__audio_name: str
 
 
     def text_to_speech(self, text, save_file: bool = True, file_name: str = None, is_temp: bool = False):
@@ -51,9 +52,9 @@ class Audio:
             file_path = self.__audio_path
 
         if file_name is None:
-            name = uuid.uuid4()
-            self.audio_file_path = f"{file_path}{name}.mp3"
-            self.__subtitles_name = str(name)
+            self.__audio_name = str(uuid.uuid4())
+            self.audio_file_path = f"{file_path}{self.__audio_name}.mp3"
+            self.__subtitles_name = self.__audio_name
 
         else:
             self.audio_file_path = f"{file_path}{file_name}.mp3"

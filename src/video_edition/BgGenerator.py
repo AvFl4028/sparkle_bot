@@ -1,6 +1,7 @@
 import json
 import os
 from moviepy import VideoFileClip
+import random
 
 
 class BgGenerator:
@@ -13,7 +14,7 @@ class BgGenerator:
         self.video_name = "test.mp4"
         self.video_file = self.path + self.video_name
         self.clip_duration = 120
-        self.clip_path: str
+        self.clips_path: str = self.config["paths"]["video"]["system"]["clips"]
 
     def bg_generate(self, video_path: str = None):
 
@@ -94,5 +95,22 @@ class BgGenerator:
 
         return
 
-    def get_clips_files() -> list[str]:
-        pass
+    def get_clips_files(self) -> list[str]:
+        clips: list[str] = os.listdir(self.clips_path)
+        list_clips: list[str] = []
+
+        for clips_path in clips:
+            for clip in os.listdir(self.clips_path + clips_path + "\\"):
+                list_clips.append(f"{self.clips_path}{clips_path}\\{clip}")
+
+        return list_clips
+
+
+    def get_random_clip(self) -> str:
+        clips: list[str] = self.get_clips_files()
+        num_clips: int = len(clips)
+        return clips[random.randint(0, num_clips)]
+
+
+if __name__ == "__main__":
+    print(len(BgGenerator().get_clips_files()))
