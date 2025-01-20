@@ -6,3 +6,4 @@ Es un pequeño bot para la automatización de contenido en redes sociales (Youtu
 - [ ] Cambio de fuente en los videos
 - [ ] Funcion de traducción o generar en otros idiomas
 - [ ] Proceso de instalación
+- [ ] Crear keys.json con su formato
