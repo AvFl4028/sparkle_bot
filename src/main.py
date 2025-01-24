@@ -9,8 +9,14 @@ gemini = GeminiAPI(GEMINI_API_KEY)
 video_editor = VideoEditor()
 
 
+test_subtitles_file: str = "src\\media\\audio\\subtitles\\El Reloj de Arena de la Abuela Emilia_part2.srt"
+test_audio_file: str = "src\\media\\audio\\temp\\El Reloj de Arena de la Abuela Emilia_part2.mp3"
+test_bg_file: str = BgGenerator().get_random_clip()
+
+
 def main() -> None:
     # Some simple test
+    # test_subtitles_video()
     # test_gemini()
     # test_whisper()
     # test_bg()
@@ -49,6 +55,10 @@ def test_whisper():
     audio_generator.subtitles(audio_path, "test")
 
 
+def test_subtitles_video() -> None:
+    video_editor.load_subtitles(test_subtitles_file)
+    return
+
 def test_bg():
     bg = BgGenerator()
     clip_files = bg.get_files()[6:-1]
@@ -72,11 +82,11 @@ def test_bg():
 
 def test_video_generator() -> None:
     history_title: str = "El Reloj de Arena de la Abuela Emilia_part2"
-
+    video_editor.load_subtitles(test_subtitles_file)
     video_editor.create_video(
         BgGenerator().get_random_clip(),
-        "src\\media\\audio\\temp\\El Reloj de Arena de la Abuela Emilia_part2.mp3",
-        "src\\media\\audio\\subtitles\\El Reloj de Arena de la Abuela Emilia_part2.srt",
+        test_audio_file,
+        test_subtitles_file,
         history_title + ".mp4",
     )
 
