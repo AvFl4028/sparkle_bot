@@ -16,7 +16,7 @@ class BgGenerator:
         self.clip_duration = 120
         self.clips_path: str = self.config["paths"]["video"]["system"]["clips"]
 
-    def bg_generate(self, video_path: str = None):
+    def bg_generate(self, video_path: str = None) -> None:
 
         if video_path is not None:
             self.video_file = video_path
@@ -56,7 +56,7 @@ class BgGenerator:
             final_list.append(self.path + i)
         return final_list
 
-    def generate_clips(self, path: str = None):
+    def generate_clips(self, path: str = None) -> None:
         if path is not None:
             self.video_file = path
             self.video_name = path.split("\\")[-1]
@@ -104,7 +104,6 @@ class BgGenerator:
                 list_clips.append(f"{self.clips_path}{clips_path}\\{clip}")
 
         return list_clips
-
 
     def get_random_clip(self) -> str:
         clips: list[str] = self.get_clips_files()
