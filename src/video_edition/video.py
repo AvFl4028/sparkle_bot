@@ -18,7 +18,7 @@ class VideoEditor:
 
     def create_video(
         self, bg_path: str, audio_path: str, subtitles_path: str, video_name: str
-    ):
+    ) -> None:
         video = VideoFileClip(bg_path)
         audio = AudioFileClip(audio_path)
         # self.subtitles = subtitles_path
@@ -34,7 +34,9 @@ class VideoEditor:
                 font="src\\media\\fonts\\OugkehRegular-DYYrW.otf",  # Fuente del texto (asegúrate de que está instalada)
                 text_align="center",
                 font_size=60,
-                #bg_color=(0, 0, 0, 75),
+                # bg_color=(0, 0, 0, 75),
+                stroke_color = "black",
+                stroke_width = 5
             )
 
             self.subtitles_size = text_clip.size
@@ -67,36 +69,42 @@ class VideoEditor:
             codec="libx264",
             audio_codec="aac",
         )
+        return
 
     def load_subtitles(self, subtitles_path: str) -> None:
         subtitles_file = pysrt.open(subtitles_path)
         subtitles = []
         sum: int = 0
-        num: int = 0
+        num: int = len(subtitles_file)
         promedio: float = 0.0
         subtitles_width: int = 20
 
         for chunk in subtitles_file:
-            start_time = chunk.start.seconds
-            end_time = chunk.end.seconds
-
             text_wraped = textwrap.wrap(chunk.text, width=subtitles_width)
             sum += len(text_wraped)
-            num += 1
 
         promedio = sum / num
 
         for chunk in subtitles_file:
-            start_time = chunk.start.seconds
-            end_time = chunk.end.seconds
+            start_time = chunk.start.seconds + (chunk.start.minutes * 60)
+            end_time = chunk.end.seconds + (chunk.end.minutes * 60)
             text_wraped = textwrap.wrap(chunk.text, width=subtitles_width)
+
+            print(f"Start time: {start_time}\nEnd Time: {end_time}")
 
             duration = end_time - start_time
             duration_promedio = duration / promedio
 
             for text_chunk in text_wraped:
-                subtitles.append(((start_time, start_time + duration_promedio), text_chunk))
+                final_end_time = start_time + duration_promedio
+
+                if final_end_time > end_time:
+                    final_end_time = end_time
+
+                subtitles.append(((start_time, final_end_time), text_chunk))
                 start_time += duration_promedio
+
         for i in subtitles:
             print(i)
         self.subtitles = subtitles
+        return
