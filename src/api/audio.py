@@ -3,6 +3,7 @@ import math
 import os
 import uuid
 from random import randint
+import gtts
 
 from elevenlabs import play
 from elevenlabs.client import ElevenLabs
@@ -17,9 +18,14 @@ num_random = randint(0, 19)
 
 # print(json_data[f"{num_random}"]["reddit_history"]["part1"]["content"])
 
+class Engine:
+    ELEVENLABS = 0
+    GTTS = 1
+
 class Audio:
-    def __init__(self, api_key: str):
-        self.__api_key = api_key
+    def __init__(self):
+        self.__api_key: str = ""
+        self.__engine: Engine
         self.__client = ElevenLabs(api_key=self.__api_key)
 
         self.audio_file_path: str = ""
@@ -33,19 +39,17 @@ class Audio:
         self.__audio_name: str
 
 
-    def text_to_speech(self, text, save_file: bool = True, file_name: str = None, is_temp: bool = False):
-        audio = self.__client.text_to_speech.convert(
-            text=text,
-            voice_id="FXGrCtY3PEyfqczBAlqm",
-            model_id="eleven_multilingual_v2",
-            output_format="mp3_44100_128",  # mp3_44100_128
-            optimize_streaming_latency=0
-        )
+    def engine(self, engine_type: Engine = None, api_key: str = ""):
+        if engine_type is None:
+            self.__engine = Engine.GTTS
+        else:
+            self.__engine = engine_type
 
-        if not save_file:
-            play(audio)
-            return
+        if self.__engine == Engine.ELEVENLABS:
+            self.__api_key = api_key
 
+
+    def text_to_speech(self, text: str, save_file: bool = True, file_name: str = None, is_temp: bool = False):
         if is_temp:
             file_path = self.__audio_temp_path
         else:
@@ -60,12 +64,29 @@ class Audio:
             self.audio_file_path = f"{file_path}{file_name}.mp3"
             self.__subtitles_name = file_name
 
-        with open(self.audio_file_path, "wb") as f:
-            for chunk in audio:
-                if chunk:
-                    f.write(chunk)
-            f.close()
-            print(f"Archivo guardado en {self.audio_file_path}")
+        if self.__engine == Engine.ELEVENLABS:
+            audio = self.__client.text_to_speech.convert(
+                text=text,
+                voice_id="FXGrCtY3PEyfqczBAlqm",
+                model_id="eleven_multilingual_v2",
+                output_format="mp3_44100_128",  # mp3_44100_128
+                optimize_streaming_latency=0
+            )
+
+            if not save_file:
+                play(audio)
+                return
+
+            with open(self.audio_file_path, "wb") as f:
+                for chunk in audio:
+                    if chunk:
+                        f.write(chunk)
+                f.close()
+                print(f"Archivo guardado en {self.audio_file_path}")
+
+        if self.__engine == Engine.GTTS:
+            audio = gtts.gTTS(lang="es", text=text)
+            audio.save(self.audio_file_path)
 
 
     def subtitles(self, audio_file: str = None, subtitles_name: str = None):

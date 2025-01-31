@@ -146,4 +146,35 @@ Genera un ÚNICO objeto JSON con el siguiente formato:
 Asegúrate de que la historia sea coherente y tenga un principio, un desarrollo y un final, incluso considerando la división en dos partes. Presta atención a la longitud aproximada de cada parte (1 minuto de lectura). No incluyas ningún texto adicional fuera del JSON.
 """
 
+promp_6 = """
+Genera una historia de Reddit de aproximadamente 4 minutos de lectura, dividiéndola en dos partes de 1 minuto cada una. La historia debe tratar sobre horror lovecraftiano, tambien llamado horror cósmico en donde te inspires en el escritor de Howarts Phillips Lovecraft.
+
+Excluye imágenes y videos; solo se necesita el texto.
+
+Genera un ÚNICO objeto JSON con el siguiente formato:
+
+{
+  "user": "{genera un nombre de usuario aleatorio}",
+  "reddit_history": {
+    "genre": "{Género de la historia}",
+    "title": "{Título de la historia de Reddit}",
+    "part1": {
+      "content": "{Contenido de la primera parte (introducción de la historia, aprox. 1 minuto de lectura)}"
+    },
+    "part2": {
+      "content": "{Contenido de la segunda parte (desarrollo de la historia, aprox. 1 minuto de lectura)}"
+    },
+    "part3": {
+      "content": "{Contenido de la segunda parte (desarrollo de la historia, aprox. 1 minuto de lectura)}"
+    },
+    "part4": {
+      "content": "{Contenido de la segunda parte (conclusión de la historia de forma mistoriosa, aprox. 1 minuto de lectura)}"
+    }
+  }
+}
+
+Asegúrate de que la historia sea coherente y tenga un principio, un desarrollo y un final, incluso considerando la división en cuatro partes. Presta atención a la longitud aproximada de cada parte (1 minuto de lectura). No incluyas ningún texto adicional fuera del JSON.
+"""
+
+promp_horror = [promp_6]
 promp_list_reddit = [promp_1, promp_2, promp_3, promp_4, promp_5]

@@ -7,7 +7,7 @@ import google.generativeai as genai
 if __name__ == "__main__":
     from promps import promp_list_reddit
 else:
-    from api.promps import promp_list_reddit
+    from api.promps import promp_list_reddit, promp_horror
 
 
 class HistoryType(Enum):
@@ -30,7 +30,7 @@ class GeminiAPI:
             case HistoryType.REDDIT:
                 response = response.generate_content(promp_list_reddit[randint(0, len(promp_list_reddit) - 1)])
             case HistoryType.HORROR:
-                return "Horror History In Development"
+                response = response.generate_content(promp_horror[0])
             case HistoryType.SPACE:
                 return "Space History In Development"
             case HistoryType.HOPECORE:
