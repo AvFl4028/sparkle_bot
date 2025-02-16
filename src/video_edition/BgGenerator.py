@@ -100,8 +100,8 @@ class BgGenerator:
         list_clips: list[str] = []
 
         for clips_path in clips:
-            for clip in os.listdir(self.clips_path + clips_path + "\\"):
-                list_clips.append(f"{self.clips_path}{clips_path}\\{clip}")
+            for clip in os.listdir(self.clips_path + clips_path + "/"):
+                list_clips.append(f"{self.clips_path}{clips_path}/{clip}")
 
         return list_clips
 

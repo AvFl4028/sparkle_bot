@@ -10,8 +10,8 @@
       "system": {
         "bg_raw": "D:\\Videos\\sparkle_bot\\media\\video\\background_raw\\",
         "bg_m_s": "D:\\Videos\\sparkle_bot\\media\\video\\background_movil_size\\",
-        "clips": "D:\\Videos\\sparkle_bot\\media\\video\\clips\\",
-        "output": "D:\\Videos\\sparkle_bot\\media\\video\\output\\"
+        "clips": "/run/media/avfl/Documentos/Videos/sparkle_bot/media/video/clips/",
+        "output": "/run/media/avfl/Documentos/Videos/sparkle_bot/media/video/output/"
       }
     },
     "audio": {

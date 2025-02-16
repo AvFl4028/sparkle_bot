@@ -31,7 +31,7 @@ class VideoEditor:
                 method="caption",  # Tamaño del texto
                 size=(int(round(float(self.video_size[0]) * 0.9)), None),
                 color="white",  # Color del texto
-                font="src\\media\\fonts\\OugkehRegular-DYYrW.otf",  # Fuente del texto (asegúrate de que está instalada)
+                font="src/media/fonts/OugkehRegular-DYYrW.otf",  # Fuente del texto (asegúrate de que está instalada)
                 text_align="center",
                 font_size=60,
                 # bg_color=(0, 0, 0, 75),

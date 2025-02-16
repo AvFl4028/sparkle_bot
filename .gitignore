@@ -8,3 +8,5 @@
 /.idea
 *.m4a
 *.srt
+/env
+./vscode

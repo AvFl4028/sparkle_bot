@@ -170,7 +170,7 @@ class SparkleBot:
 
 def main() -> None:
     sparkle = SparkleBot()
-    sparkle.test(TestType.SUBTITLES)
+    sparkle.test(TestType.FINAL_VIDEO)
     return
 
 
