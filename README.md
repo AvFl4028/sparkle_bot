@@ -1,5 +1,8 @@
 # Sparkle Bot
 Es un pequeño bot para la automatización de contenido en redes sociales (Youtube, Tiktok) sobre historias del formato estilo ```"Historias de Reddit"```
+
+![img](img/img.png)
+
 ## TODO
 - [ ] Documentar el codigo
 - [x] Edición de video
